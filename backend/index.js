@@ -34,6 +34,8 @@ app.post("/cards", CardsController.create);
 //app.putch("/cards", CardsController.update);
 
 app.get("/products/:model", GoodsController.getOneModel);
+app.post("/products/order", GoodsController.saveOrder);
+app.get("/orders", GoodsController.getOrderHistory);
 
 app.listen(4444, (err) => {
   if (err) {

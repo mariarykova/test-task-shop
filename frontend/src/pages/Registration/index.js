@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
+import { fetchRegister, selectIsAuth } from "../../redux/slices/auth";
 
-import "./login.css";
+import "./registration.css";
 
-export const Login = () => {
+export const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const {
@@ -17,15 +17,16 @@ export const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "test@test.ru",
-      password: "test",
+      email: "",
+      fullName: "",
+      password: "",
     },
     mode: "onChange",
   });
 
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchAuth(values));
-    if (!data.payload) return alert("Cannot log in");
+    const data = await dispatch(fetchRegister(values));
+    if (!data.payload) return alert("Cannot sign up");
 
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
@@ -38,13 +39,7 @@ export const Login = () => {
 
   return (
     <div className="wrapper">
-      <div className="close">
-        <svg className="icon">
-          {/*<use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#close`} />*/}
-        </svg>
-      </div>
-
-      <div className="title">Log In</div>
+      <div className="title">Sign Up</div>
 
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="group">
@@ -52,9 +47,9 @@ export const Login = () => {
             type="email"
             placeholder="Your email"
             name="email"
-            //  value={values.email}
+            //value={values.email}
             autoComplete="off"
-            //  onChange={handleChange}
+            //onChange={handleChange}
             {...register("email", { required: "Please, provide yout email" })}
           />
           <div className="error">
@@ -64,14 +59,29 @@ export const Login = () => {
 
         <div className="group">
           <input
+            type="name"
+            placeholder="Your name"
+            name="fullName"
+            //value={values.name}
+            autoComplete="off"
+            //onChange={handleChange}
+            {...register("fullName", { required: "Please, provide your name" })}
+          />
+          <div className="error">
+            {Boolean(errors.fullName?.message) && errors.fullName?.message}
+          </div>
+        </div>
+
+        <div className="group">
+          <input
             type="password"
             placeholder="Your password"
             name="password"
-            //  value={values.password}
+            //value={values.password}
             autoComplete="off"
-            //  onChange={handleChange}
+            //onChange={handleChange}
             {...register("password", {
-              required: "Please, provide yout password",
+              required: "Please, provide your password",
             })}
           />
           <div className="error">
@@ -79,15 +89,27 @@ export const Login = () => {
           </div>
         </div>
 
-        <div
-          //onClick={() => toggleCurrentFormType("signup")}
-          className="link"
-        >
-          Create an account
+        <div className="group">
+          <input
+            type="avatar"
+            placeholder="Your avatar"
+            name="avatar"
+            //value={values.avatar}
+            autoComplete="off"
+            //onChange={handleChange}
+            //required
+          />
         </div>
 
-        <button type="submit" className="submit">
-          Login
+        <div
+          className="link"
+          //  onClick={() => toggleCurrentFormType("login")}
+        >
+          I already have an account
+        </div>
+
+        <button disabled={!isValid} type="submit" className="submit">
+          Create an account
         </button>
       </form>
     </div>

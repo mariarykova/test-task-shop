@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useCallback, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useGetProductQuery } from "../../redux/slices/api";
 import { useDispatch } from "react-redux";
-import { Product } from "./ui/Product/index";
-
-import Gallery from "./ui/Gallery";
-import "./good.css";
+import { Product } from "../../components/Product/index";
 
 const data1 = {
   model: "1",
@@ -81,12 +78,23 @@ const data1 = {
 
 export const Good = () => {
   const { model } = useParams();
-  const { data } = useGetProductQuery({ model });
+  const navigate = useNavigate();
+  const { data, isLoading, isFetching, isSuccess } = useGetProductQuery({
+    model,
+  });
 
   console.log(data);
 
+  useEffect(() => {
+    if (!isFetching && !isLoading && !isSuccess) {
+      navigate("/");
+    }
+  }, [isFetching, isLoading, isSuccess]);
+
   return !data ? (
-    <section className="preloader">Loading...</section>
+    <section className="flex-grow p-6 flex items-center justify-center">
+      Loading...
+    </section>
   ) : (
     <Product {...data} />
   );
