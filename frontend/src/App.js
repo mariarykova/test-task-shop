@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
-import "./App.css";
 import { Catalogue } from "./pages/Catalogue";
 import { Good } from "./pages/ProductPage";
 import { Cart } from "./pages/Cart";
@@ -23,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

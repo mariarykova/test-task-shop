@@ -12,8 +12,8 @@ export const LogInForm = ({ onSubmit }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "test@test.ru",
-      password: "test",
+      email: "",
+      password: "",
     },
     mode: "onChange",
   });

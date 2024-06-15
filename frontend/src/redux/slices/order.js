@@ -9,14 +9,6 @@ export const fetchOrdersByUser = createAsyncThunk(
   }
 );
 
-//export const placeOrder = createAsyncThunk(
-//  "auth/fetchAuthMe",
-//  async (params) => {
-//    const { data } = await axios.post("/products/order", params);
-//    return data;
-//  }
-//);
-
 export const placeOrder = createAsyncThunk(
   "order/placeOrder",
   async (params, { rejectWithValue }) => {

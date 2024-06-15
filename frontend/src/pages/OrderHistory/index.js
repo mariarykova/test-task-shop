@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { fetchOrdersByUser } from "../../redux/slices/order";
 
 import { Header } from "../../components/Header";
@@ -13,7 +14,7 @@ export const OrderHistory = () => {
 
   useEffect(() => {
     user && dispatch(fetchOrdersByUser(user._id));
-  }, [user]);
+  }, [user, dispatch]);
 
   const Result = () => {
     return history.map((orders, index) => {
@@ -51,7 +52,7 @@ export const OrderHistory = () => {
   return (
     <>
       <Header />
-      <h2>Order History</h2>
+      <div className="text-center text-xl">Order History</div>
       <section className="flex flex-col p-6 gap-8 text-light w-full">
         {!history ? (
           <section className="flex-grow p-6 flex items-center justify-center">

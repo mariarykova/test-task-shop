@@ -14,7 +14,7 @@ export const Good = () => {
     if (!isFetching && !isLoading && !isSuccess) {
       navigate("/");
     }
-  }, [isFetching, isLoading, isSuccess]);
+  }, [isFetching, isLoading, isSuccess, navigate]);
 
   return !data ? (
     <section className="flex-grow p-6 flex items-center justify-center">

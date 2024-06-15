@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import Card from "../../components/Card";
 import { Header } from "../../components/Header";
-import { fetchCards } from "../../redux/slices/cards";
 import { SkeletonCard } from "../../components/Card/skeleton";
+
+import { fetchCards } from "../../redux/slices/cards";
 
 export const Catalogue = () => {
   const dispatch = useDispatch();
@@ -13,14 +15,14 @@ export const Catalogue = () => {
 
   useEffect(() => {
     dispatch(fetchCards());
-  }, []);
+  }, [dispatch]);
 
   const renderCards = useCallback(() => {
-    return (isCardsLoading ? [...Array(6)] : cards).map((card) => {
+    return (isCardsLoading ? [...Array(6)] : cards).map((card, index) => {
       return isCardsLoading ? (
-        <SkeletonCard />
+        <SkeletonCard key={index} />
       ) : (
-        <div key={card.id}>
+        <div key={index}>
           <Card item={card} />
         </div>
       );
@@ -30,7 +32,9 @@ export const Catalogue = () => {
   return (
     <>
       <Header />
-      <h1 className="font-roboto p-6 italic ">Catalogue</h1>
+      <div className="font-roboto text-2xl text-center mb-[40px]">
+        Catalogue
+      </div>
       <div>
         <div className="flex justify-around flex-wrap gap-x-4 gap-y-8 max-w-[920px]">
           {renderCards()}

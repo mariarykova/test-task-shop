@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+
 import {
   addItemToCart,
   selectIsAuth,
@@ -10,6 +12,7 @@ import {
   emptyCart,
 } from "../../redux/slices/auth";
 import { placeOrder } from "../../redux/slices/order";
+
 import { Header } from "../../components/Header";
 
 export const Cart = () => {
@@ -68,12 +71,12 @@ export const Cart = () => {
         ) : (
           <>
             <div className="flex flex-col gap-[8px] mt-[16px] mb-[24px]">
-              {cart.map((item) => {
-                const { title, details, price, id, model } = item.item;
+              {cart.map((item, index) => {
+                const { title, details, price, model } = item.item;
                 return (
                   <div
                     className="rounded-lg bg-bg w-full p-3 px-4 flex justify-between items-center h-[70px] bg-[#212123]"
-                    key={id}
+                    key={index}
                   >
                     <div
                       className="bg-center bg-no-repeat bg-cover rounded-md h-full w-[100px]"
@@ -156,7 +159,7 @@ export const Cart = () => {
           <button
             className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
               !isAuth || cart.length === 0
-                ? "cursor-not-allowed bg-gray-400"
+                ? "cursor-not-allowed bg-grey"
                 : "cursor-pointer"
             }`}
             disabled={!isAuth || cart.length === 0}

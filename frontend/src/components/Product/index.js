@@ -13,7 +13,6 @@ export const Product = (item) => {
   const [currentColor, setCurrentColor] = useState("white");
   const [maxQuantity, setMaxQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -170,7 +169,7 @@ export const Product = (item) => {
               onClick={addToCart}
               className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
                 !currentSize || quantity === 0
-                  ? "cursor-not-allowed bg-gray-400"
+                  ? "cursor-not-allowed bg-grey"
                   : "cursor-pointer hover:bg-violet"
               }`}
               disabled={!currentSize || quantity === 0}

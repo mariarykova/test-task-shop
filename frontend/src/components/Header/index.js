@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import Modal from "../Modal/index";
+
+import { Modal } from "../Modal";
 import { AuthForm } from "../User";
 
-import { useSelector, useDispatch } from "react-redux";
 import {
   selectIsAuth,
   logout,
@@ -19,16 +21,16 @@ export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
   const { user, cart, formType } = useSelector((state) => state.auth);
   const [isModal, setIsModal] = useState(false);
-
-  const toggleModal = () => {
-    setIsModal(!isModal);
-  };
-
   const dispatch = useDispatch();
+
   const onLogout = () => {
     dispatch(logout());
     dispatch(emptyOrder());
     window.localStorage.removeItem("token");
+  };
+
+  const toggleModal = () => {
+    setIsModal(!isModal);
   };
 
   const total = useCallback(() => {
