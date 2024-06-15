@@ -78,7 +78,7 @@ export const Product = (item) => {
           );
         });
     },
-    [currentSize]
+    [currentSize, item]
   );
 
   const addToCart = () => {

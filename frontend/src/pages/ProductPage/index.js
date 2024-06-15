@@ -10,8 +10,6 @@ export const Good = () => {
     model,
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (!isFetching && !isLoading && !isSuccess) {
       navigate("/");

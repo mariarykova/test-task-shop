@@ -26,6 +26,7 @@ const initialState = {
   user: null,
   cart: [],
   status: "loading",
+  formType: "signup",
 };
 
 const authSlice = createSlice({
@@ -64,7 +65,6 @@ const authSlice = createSlice({
       state.cart = newCart;
     },
     removeItemFromCart: (state, { payload }) => {
-      console.log(payload);
       state.cart = state.cart.filter(
         (item) =>
           item.item.model !== payload.model ||
@@ -74,6 +74,9 @@ const authSlice = createSlice({
     },
     emptyCart: (state) => {
       state.cart = [];
+    },
+    toggleFormType: (state, { payload }) => {
+      state.formType = payload;
     },
   },
   extraReducers: (builder) => {
@@ -121,5 +124,10 @@ export const selectIsAuth = (state) => Boolean(state.auth.user);
 
 export const authReducer = authSlice.reducer;
 
-export const { logout, addItemToCart, removeItemFromCart, emptyCart } =
-  authSlice.actions;
+export const {
+  logout,
+  addItemToCart,
+  removeItemFromCart,
+  emptyCart,
+  toggleFormType,
+} = authSlice.actions;

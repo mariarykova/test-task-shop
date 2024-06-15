@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ import {
   removeItemFromCart,
   emptyCart,
 } from "../../redux/slices/auth";
-import { placeOrder, selectIsBaught } from "../../redux/slices/order";
+import { placeOrder } from "../../redux/slices/order";
 import { Header } from "../../components/Header";
 
 export const Cart = () => {
