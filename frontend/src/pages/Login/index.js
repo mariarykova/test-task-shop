@@ -1,11 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
-
-import "./login.css";
 
 export const Login = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -13,8 +11,7 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
-    setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: "test@test.ru",
@@ -37,58 +34,64 @@ export const Login = () => {
   }
 
   return (
-    <div className="wrapper">
-      <div className="close">
-        <svg className="icon">
-          {/*<use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#close`} />*/}
-        </svg>
+    <div className="bg-dark w-[500px] p-6 relative top-1/4 left-1/4 middle">
+      <div className="text-center text-light font-normal text-sm leading-[18px]">
+        Log In
       </div>
 
-      <div className="title">Log In</div>
-
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="group">
+      <form
+        className="mt-6 flex flex-col space-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div>
           <input
             type="email"
             placeholder="Your email"
             name="email"
-            //  value={values.email}
             autoComplete="off"
-            //  onChange={handleChange}
             {...register("email", { required: "Please, provide yout email" })}
+            className="w-full bg-[#212123] rounded-lg text-[var(--light)] p-3.5"
           />
-          <div className="error">
+          <div className="mt-1 text-sm text-red-500">
             {Boolean(errors.email?.message) && errors.email?.message}
           </div>
         </div>
 
-        <div className="group">
+        <div>
           <input
             type="password"
             placeholder="Your password"
             name="password"
-            //  value={values.password}
             autoComplete="off"
-            //  onChange={handleChange}
             {...register("password", {
               required: "Please, provide yout password",
             })}
+            className="w-full bg-[#212123] rounded-lg text-[var(--light)] p-3.5"
           />
-          <div className="error">
+          <div className="mt-1 text-sm text-red-500">
             {Boolean(errors.password?.message) && errors.password?.message}
           </div>
         </div>
 
-        <div
-          //onClick={() => toggleCurrentFormType("signup")}
-          className="link"
-        >
-          Create an account
-        </div>
+        <Link to="/register">
+          <div className="mt-6 text-center text-sm text-dark-sea cursor-pointer hover:text-light">
+            Create an account
+          </div>
+        </Link>
 
-        <button type="submit" className="submit">
+        <button
+          type="submit"
+          className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
+        >
           Login
         </button>
+
+        <Link
+          to={"/"}
+          className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
+        >
+          Return to store
+        </Link>
       </form>
     </div>
   );

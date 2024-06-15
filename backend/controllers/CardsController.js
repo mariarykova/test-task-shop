@@ -34,7 +34,7 @@ export const create = async (req, res) => {
       type: req.body.type,
       mainPhotoUrl: req.body.mainPhotoUrl,
       hoverPhotoUrl: req.body.hoverPhotoUrl,
-      model: req.goodModel,
+      model: req.body.model,
     });
 
     const card = await doc.save();

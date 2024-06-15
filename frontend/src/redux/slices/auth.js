@@ -22,18 +22,9 @@ export const fetchAuthMe = createAsyncThunk(
   }
 );
 
-export const placeOrder = createAsyncThunk(
-  "auth/fetchAuthMe",
-  async (params) => {
-    const { data } = await axios.post("/products/order", params);
-    return data;
-  }
-);
-
 const initialState = {
   user: null,
   cart: [],
-  order: null,
   status: "loading",
 };
 
@@ -81,6 +72,9 @@ const authSlice = createSlice({
           item.color !== payload.color
       );
     },
+    emptyCart: (state) => {
+      state.cart = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -120,17 +114,6 @@ const authSlice = createSlice({
         state.status = "error";
         state.user = null;
       });
-    //  .addCase(placeOrder.pending, (state) => {
-    //    state.status = "loading";
-    //  })
-    //  .addCase(placeOrder.fulfilled, (state, action) => {
-    //    state.status = "succeeded";
-    //    state.order = action.payload;
-    //  })
-    //  .addCase(placeOrder.rejected, (state, action) => {
-    //    state.status = "error";
-    //    state.error = action.payload;
-    //  });
   },
 });
 
@@ -138,4 +121,5 @@ export const selectIsAuth = (state) => Boolean(state.auth.user);
 
 export const authReducer = authSlice.reducer;
 
-export const { logout, addItemToCart, removeItemFromCart } = authSlice.actions;
+export const { logout, addItemToCart, removeItemFromCart, emptyCart } =
+  authSlice.actions;

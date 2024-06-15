@@ -19,8 +19,7 @@ const CardSchema = new mongoose.Schema(
       required: true,
     },
     model: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Good",
+      type: String,
       required: true,
     },
     mainPhotoUrl: String,

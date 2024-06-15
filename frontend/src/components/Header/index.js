@@ -1,18 +1,19 @@
-import React, { useEffect, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectIsAuth, logout } from "../../redux/slices/auth";
+import { emptyOrder } from "../../redux/slices/order";
 
 export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
   const { user, cart } = useSelector((state) => state.auth);
-  //  const { cart } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logout());
+    dispatch(emptyOrder());
     window.localStorage.removeItem("token");
   };
 

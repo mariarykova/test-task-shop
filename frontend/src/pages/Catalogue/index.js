@@ -16,9 +16,7 @@ export const Catalogue = () => {
   }, []);
 
   const renderCards = useCallback(() => {
-    //const startItem = (currentPage - 1) * itemsPerPage;
-    //const endItem = currentPage * itemsPerPage;
-    return (isCardsLoading ? [...Array(6)] : cards).map((card, index) => {
+    return (isCardsLoading ? [...Array(6)] : cards).map((card) => {
       return isCardsLoading ? (
         <SkeletonCard />
       ) : (

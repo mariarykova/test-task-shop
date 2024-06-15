@@ -1,10 +1,9 @@
 import React from "react";
 import Skeleton from "@mui/material/Skeleton";
-import "./card.css";
 
 export const SkeletonCard = () => {
   return (
-    <div className="card">
+    <div className="max-w-xs text-center">
       <Skeleton
         variant="rectangular"
         animation="wave"

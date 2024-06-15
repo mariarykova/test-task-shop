@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import {
   addItemToCart,
   selectIsAuth,
   removeItemFromCart,
-  placeOrder,
+  emptyCart,
 } from "../../redux/slices/auth";
+import { placeOrder, selectIsBaught } from "../../redux/slices/order";
 import { Header } from "../../components/Header";
-
-//import { sumBy } from "../../utils/common";
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const { cart, user } = useSelector(({ auth }) => auth);
   const isAuth = useSelector(selectIsAuth);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const changeQuantity = (item, quantity) => {
     dispatch(addItemToCart({ ...item, quantity }));
@@ -27,7 +28,7 @@ export const Cart = () => {
 
   const sumBy = (arr) => arr.reduce((prev, cur) => prev + cur, 0);
 
-  const buyItems = () => {
+  const buyItems = async () => {
     const params = {
       user: {
         _id: user._id,
@@ -42,9 +43,14 @@ export const Cart = () => {
       })),
     };
 
-    console.log(params);
-
-    dispatch(placeOrder(params));
+    try {
+      await dispatch(placeOrder(params)).unwrap();
+      setErrorMessage("");
+      dispatch(emptyCart());
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error);
+    }
   };
 
   return (
@@ -66,11 +72,11 @@ export const Cart = () => {
                 const { title, details, price, id, model } = item.item;
                 return (
                   <div
-                    className="rounded-lg bg-var(--bg) w-full p-3 px-4 grid grid-cols-[100px_2fr_1fr_1.5fr_1fr_16px] items-center h-[70px] bg-[#212123]"
+                    className="rounded-lg bg-bg w-full p-3 px-4 flex justify-between items-center h-[70px] bg-[#212123]"
                     key={id}
                   >
                     <div
-                      className="bg-center bg-no-repeat bg-cover rounded-md h-full "
+                      className="bg-center bg-no-repeat bg-cover rounded-md h-full w-[100px]"
                       style={{ backgroundImage: `url(${details[0].photo[0]})` }}
                     />
                     <div className="ml-4 flex flex-col gap-1">
@@ -78,7 +84,12 @@ export const Cart = () => {
                         {title}
                       </h3>
                     </div>
-
+                    <div className="text-[14px] leading-[18px]">
+                      {item.color}
+                    </div>
+                    <div className="text-[14px] leading-[18px]">
+                      {item.size}
+                    </div>
                     <div className="text-[14px] leading-[18px]">{price}$</div>
 
                     <div className="flex items-center">
@@ -89,7 +100,7 @@ export const Cart = () => {
                         -
                       </div>
 
-                      <span class="w-[40px] text-center text-[14px] leading-[17px]">
+                      <span className="w-[40px] text-center text-[14px] leading-[17px]">
                         {item.quantity}
                       </span>
 
@@ -121,28 +132,39 @@ export const Cart = () => {
                 );
               })}
             </div>
-
-            <div className="flex justify-between items-center mt-auto">
-              <div className="font-semibold text-[20px] leading-[24px] text-grey pl-[50px]">
-                TOTAL PRICE:{" "}
-                <span className="text-white">
-                  {sumBy(
-                    cart.map(({ quantity, item }) => quantity * item.price)
-                  )}
-                  $
-                </span>
-              </div>
-
-              <button
-                className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer"
-                disabled={!isAuth}
-                onClick={buyItems}
-              >
-                Proceed to checkout
-              </button>
-            </div>
           </>
         )}
+        {errorMessage && (
+          <p className="text-red-500 font-bold">{errorMessage}</p>
+        )}
+
+        <div className="flex justify-between items-center mt-auto">
+          <div className="font-semibold text-[20px] leading-[24px] text-grey pl-[50px]">
+            TOTAL PRICE:{" "}
+            <span className="text-white">
+              {sumBy(cart.map(({ quantity, item }) => quantity * item.price))}$
+            </span>
+          </div>
+
+          <Link
+            to={"/"}
+            className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
+          >
+            Return to store
+          </Link>
+
+          <button
+            className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
+              !isAuth || cart.length === 0
+                ? "cursor-not-allowed bg-gray-400"
+                : "cursor-pointer"
+            }`}
+            disabled={!isAuth || cart.length === 0}
+            onClick={buyItems}
+          >
+            Proceed to checkout
+          </button>
+        </div>
       </section>
     </>
   );

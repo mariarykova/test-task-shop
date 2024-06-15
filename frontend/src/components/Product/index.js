@@ -7,7 +7,7 @@ import { Header } from "../../components/Header";
 import { addItemToCart } from "../../redux/slices/auth";
 
 export const Product = (item) => {
-  const { title, price, description, sizes, colors, details } = item;
+  const { title, price, description, colors, details } = item;
   const [currentImage, setCurrentImage] = useState();
   const [currentSize, setCurrentSize] = useState("");
   const [currentColor, setCurrentColor] = useState("white");
@@ -168,8 +168,12 @@ export const Product = (item) => {
           <div className="mt-5 flex gap-2.5">
             <button
               onClick={addToCart}
-              className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
-              disabled={!currentSize && !quantity.length}
+              className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
+                !currentSize || quantity === 0
+                  ? "cursor-not-allowed bg-gray-400"
+                  : "cursor-pointer hover:bg-violet"
+              }`}
+              disabled={!currentSize || quantity === 0}
             >
               Add to cart
             </button>

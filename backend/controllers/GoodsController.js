@@ -40,10 +40,55 @@ export const getOneModel = async (req, res) => {
   }
 };
 
+//export const saveOrder = async (req, res) => {
+//  try {
+//    const { items, user } = req.body;
+
+//    for (const item of items) {
+//      const checkItem = await Good.findOne({
+//        model: item.model,
+//        size: item.size,
+//        color: item.color,
+//      });
+
+//      if (!checkItem) {
+//        return res.status(400).json({
+//          message: `Item not found in goods: ${item.model} ${item.size} ${item.color}`,
+//        });
+//      }
+
+//      if (checkItem.quantity < item.quantity) {
+//        return res
+//          .status(400)
+//          .json({
+//            message: `Not enough quantity for item: ${item.model} ${item.size} ${item.color}`,
+//          });
+//      }
+
+//      checkItem.quantity -= item.quantity;
+//      await checkItem.save();
+//    }
+
+//    const newOrder = new OrderModel({
+//      userId: user._id,
+//      items,
+//    });
+//    const order = await newOrder.save();
+
+//    res.json(order);
+//  } catch (error) {
+//    console.log(error);
+//    res.status(500).json({
+//      message: "Failed to save order",
+//    });
+//  }
+//};
+
 export const saveOrder = async (req, res) => {
   try {
     const { items, user } = req.body;
 
+    // Step 1: Validate all items
     for (const item of items) {
       const checkItem = await Good.findOne({
         model: item.model,
@@ -57,6 +102,21 @@ export const saveOrder = async (req, res) => {
         });
       }
 
+      if (checkItem.quantity < item.quantity) {
+        return res.status(400).json({
+          message: `Not enough quantity for item: ${item.model} ${item.size} ${item.color}`,
+        });
+      }
+    }
+
+    // Step 2: Update inventory and save the order
+    for (const item of items) {
+      const checkItem = await Good.findOne({
+        model: item.model,
+        size: item.size,
+        color: item.color,
+      });
+
       checkItem.quantity -= item.quantity;
       await checkItem.save();
     }
@@ -65,6 +125,7 @@ export const saveOrder = async (req, res) => {
       userId: user._id,
       items,
     });
+
     const order = await newOrder.save();
 
     res.json(order);
