@@ -7,6 +7,7 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 import { Modal } from "../Modal";
 import { AuthForm } from "../User";
+import Button from "../Button";
 
 import {
   selectIsAuth,
@@ -68,25 +69,23 @@ export const Header = () => {
             <button onClick={onLogout}>Log Out</button>
           ) : (
             <>
-              <button
+              <Button
                 onClick={() => {
                   toggleModal();
                   dispatch(toggleFormType("login"));
                 }}
-                className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
               >
                 Log In
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={() => {
                   toggleModal();
                   dispatch(toggleFormType("signup"));
                 }}
-                className="bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] cursor-pointer hover:bg-violet"
               >
                 Sign up
-              </button>
+              </Button>
             </>
           )}
         </div>

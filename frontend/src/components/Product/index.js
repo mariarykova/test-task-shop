@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { Header } from "../../components/Header";
+import Button from "../../components/Button";
 
 import { addItemToCart } from "../../redux/slices/auth";
 
@@ -165,17 +166,12 @@ export const Product = (item) => {
           </div>
 
           <div className="mt-5 flex gap-2.5">
-            <button
+            <Button
               onClick={addToCart}
-              className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
-                !currentSize || quantity === 0
-                  ? "cursor-not-allowed bg-grey"
-                  : "cursor-pointer hover:bg-violet"
-              }`}
-              disabled={!currentSize || quantity === 0}
+              isDisabled={true ? !currentSize || quantity === 0 : false}
             >
               Add to cart
-            </button>
+            </Button>
 
             <Link
               to={"/"}

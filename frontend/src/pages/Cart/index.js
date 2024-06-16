@@ -14,6 +14,7 @@ import {
 import { placeOrder } from "../../redux/slices/order";
 
 import { Header } from "../../components/Header";
+import Button from "../../components/Button";
 
 export const Cart = () => {
   const dispatch = useDispatch();
@@ -156,17 +157,12 @@ export const Cart = () => {
             Return to store
           </Link>
 
-          <button
-            className={`bg-violet-dark rounded-md py-[9px] px-[20px] font-semibold leading-[20px] ${
-              !isAuth || cart.length === 0
-                ? "cursor-not-allowed bg-grey"
-                : "cursor-pointer"
-            }`}
-            disabled={!isAuth || cart.length === 0}
+          <Button
             onClick={buyItems}
+            isDisabled={true ? !isAuth || cart.length === 0 : false}
           >
             Proceed to checkout
-          </button>
+          </Button>
         </div>
       </section>
     </>
